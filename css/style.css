@@ -66,16 +66,15 @@ h1,h2,h3,h4{font-weight:600;margin:0;letter-spacing:-.015em}
 
 /* ============================================================= logo */
 .logo{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1}
-.logo-word{display:flex;align-items:flex-start;font-weight:900;letter-spacing:-.04em;font-family:'Be Vietnam Pro',sans-serif}
-.logo-word b{font-weight:900}
-.logo-word b:first-child{color:#fff}
-.logo-play{margin-left:2px;animation:play-bob 3s var(--ease-io) infinite alternate;filter:drop-shadow(0 0 10px rgba(139,92,246,.7))}
-@keyframes play-bob{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-3px) rotate(6deg)}}
-.logo-media{font-family:'Space Grotesk',sans-serif;color:var(--bone);font-weight:500;letter-spacing:.18em;white-space:pre}
-.logo--sm .logo-word{font-size:24px}.logo--sm .logo-play{width:13px;height:13px}.logo--sm .logo-media{font-size:7.5px;margin-top:2px;letter-spacing:.55em;padding-left:2px}
-.logo--md .logo-word{font-size:40px}.logo--md .logo-play{width:20px;height:20px}.logo--md .logo-media{font-size:11px;margin-top:4px;letter-spacing:.6em;padding-left:4px}
-.logo--lg .logo-word{font-size:64px}.logo--lg .logo-play{width:30px;height:30px}.logo--lg .logo-media{font-size:16px;margin-top:6px;letter-spacing:.66em;padding-left:6px;align-self:center}
+.logo-img{display:block;width:auto;max-width:none;filter:drop-shadow(0 0 14px rgba(139,92,246,.35))}
+.logo-media{font-family:'Space Grotesk',sans-serif;color:var(--bone);font-weight:500;white-space:pre}
+.logo--sm .logo-img{height:30px}.logo--sm .logo-media{font-size:7.5px;margin-top:3px;letter-spacing:.55em;padding-left:2px}
+.logo--md .logo-img{height:50px}.logo--md .logo-media{font-size:11px;margin-top:5px;letter-spacing:.62em;padding-left:4px}
 .logo--lg{align-items:center}
+.logo--lg .logo-img{height:clamp(64px,14vw,92px);animation:logo-in 1.2s var(--ease-out) both}
+.logo--lg .logo-media{font-size:16px;margin-top:8px;letter-spacing:.66em;padding-left:6px}
+@keyframes logo-in{from{opacity:0;transform:scale(.9);filter:blur(8px)}to{opacity:1;transform:none;filter:drop-shadow(0 0 14px rgba(139,92,246,.35))}}
+.brand:hover .logo-img{filter:drop-shadow(0 0 18px rgba(36,229,213,.6))}
 
 /* ============================================================= preloader */
 #pre{position:fixed;inset:0;z-index:100;background:#050814;display:flex;align-items:center;justify-content:center;transition:opacity .8s var(--ease),visibility .8s,clip-path 1s var(--ease-io);clip-path:inset(0 0 0 0)}
@@ -434,6 +433,9 @@ h1,h2,h3,h4{font-weight:600;margin:0;letter-spacing:-.015em}
 .f-row input,.f-row select,.f-row textarea{width:100%;padding:13px 16px;border-radius:12px;background:rgba(5,8,20,.8);border:1px solid var(--line);color:#fff;font:inherit;font-size:14.5px;outline:none;transition:border-color .3s,box-shadow .3s;resize:vertical}
 .f-row select option{background:#0a1024}
 .f-row input:focus,.f-row select:focus,.f-row textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 4px rgba(36,229,213,.12)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.cta:disabled{opacity:.75;cursor:progress}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(5,8,20,.3);border-top-color:#050814;animation:spin .7s linear infinite}
 .f-err{margin:0 0 12px;color:#fda4af;font-size:13.5px}
 .cta{width:100%;justify-content:center;position:relative;display:inline-flex;align-items:center;gap:14px;padding:17px 28px;border-radius:100px;overflow:hidden;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#050814;background:var(--grad);background-size:180% 100%;box-shadow:0 12px 36px rgba(36,229,213,.4);transition:transform .45s var(--ease-out),box-shadow .45s,background-position .6s}
 .cta:hover{transform:translateY(-2px);background-position:100% 0;box-shadow:0 18px 48px rgba(217,70,239,.6)}

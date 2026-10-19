@@ -4,20 +4,15 @@
 (function () {
   const C = window.EDUBIZ_CONTENT;
 
-  /* ---------------- Logo (vector, theo nhận diện EduBiz Media) */
+  /* ---------------- Logo (ảnh logo.jpg gốc đã tách nền)
+     assets/logo-dark.png : chữ "Edu" màu trắng — dùng trên nền tối của website
+     assets/logo.png      : màu gốc (Edu xanh navy) — dùng khi đặt trên nền sáng */
   EB.components.BrandLogo = {
     name: 'BrandLogo',
-    props: { size: { type: String, default: 'md' } },
+    props: { size: { type: String, default: 'md' }, light: Boolean },
     template: `
       <span class="logo" :class="'logo--' + size">
-        <span class="logo-word"><b>Edu</b><b class="grad-tx">Biz</b>
-          <svg class="logo-play" viewBox="0 0 40 40" aria-hidden="true">
-            <defs><linearGradient id="lgp" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#24e5d5"/><stop offset=".55" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ec4899"/>
-            </linearGradient></defs>
-            <path d="M8 5 L35 20 L8 35 Z" fill="url(#lgp)" stroke="url(#lgp)" stroke-width="4" stroke-linejoin="round"/>
-          </svg>
-        </span>
+        <img class="logo-img" :src="light ? 'assets/logo.png' : 'assets/logo-dark.png'" alt="EduBiz Media" width="1000" height="298">
         <span class="logo-media">M E D I A</span>
       </span>`
   };

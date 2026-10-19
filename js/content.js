@@ -2,6 +2,16 @@
    NỘI DUNG WEBSITE — lấy từ "EDUBIZ MEDIA.txt" và bảng giá dịch vụ.
    Muốn sửa chữ trên web, chỉ cần sửa trong file này.
    ===================================================================== */
+/* ---------------------------------------------------------------------
+   CẤU HÌNH GỬI FORM LÊN GOOGLE SHEET
+   Dán URL Web App của Google Apps Script (dạng https://script.google.com/macros/s/.../exec)
+   vào SHEET_URL. Để trống '' thì form sẽ mở email soạn sẵn như cũ.
+   Hướng dẫn chi tiết: xem README.md và file google-apps-script.gs
+   --------------------------------------------------------------------- */
+window.EDUBIZ_CONFIG = {
+  SHEET_URL: ''
+};
+
 window.EDUBIZ_CONTENT = {
   brand: {
     name: 'EDUBIZ MEDIA',

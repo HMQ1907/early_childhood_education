@@ -26,9 +26,17 @@ js/components/
   PartnersSection.js        06 Đối tác + 07 Tầm nhìn & Sứ mệnh
   ContactSection.js         08 Liên hệ + form đăng ký tư vấn
 assets/                     Ảnh (cắt từ bảng giá)
+google-apps-script.gs       Script nhận form & ghi vào Google Sheet
 ```
 
 ## Ghi chú
-- **Form đăng ký**: chưa có máy chủ, nên khi bấm gửi sẽ mở ứng dụng email với nội dung soạn sẵn gửi tới hi.edubiz@gmail.com. Muốn nhận dữ liệu tự động (Google Sheet, CRM, Zalo OA…), thay hàm `submit()` trong `ContactSection.js`.
+- **Form đăng ký → Google Sheet**:
+  1. Mở Google Sheet → Extensions (Tiện ích mở rộng) → Apps Script.
+  2. Xóa code mẫu, dán toàn bộ `google-apps-script.gs`, bấm Lưu.
+  3. Deploy → New deployment → chọn loại **Web app** → Execute as: **Me** · Who has access: **Anyone** → Deploy → cấp quyền.
+  4. Copy **Web app URL** (đuôi `/exec`), dán vào `SHEET_URL` ở đầu `js/content.js`.
+  5. Mỗi lần gửi form sẽ thêm 1 dòng vào tab "Đăng ký tư vấn" (tự tạo nếu chưa có).
+  - Sửa code script sau này: Deploy → Manage deployments → Edit → Version: New version (giữ nguyên URL).
+  - Để trống `SHEET_URL` thì form quay về chế độ mở email soạn sẵn.
 - **Logo** đang dựng bằng chữ + SVG theo nhận diện. Nếu có file logo PNG/SVG gốc nền trong suốt, đặt vào `assets/` và thay component `BrandLogo` trong `Layout.js`.
 - Người dùng bật "giảm chuyển động" trong hệ điều hành sẽ tự động được tắt bớt animation.
