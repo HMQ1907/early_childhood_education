@@ -4,15 +4,19 @@
    ===================================================================== */
 EB.components.GlBackground = {
   name: 'GlBackground',
-  template: `<canvas ref="cv" id="gl" aria-hidden="true"></canvas>`,
+  /* logo EduBiz đặt ở tâm quả cầu: là ảnh HTML đè lên canvas, vị trí tính theo tâm quả cầu mỗi khung hình
+     (không đưa ảnh vào WebGL vì Chrome chặn texture khi mở index.html trực tiếp từ ổ đĩa) */
+  template: `<canvas ref="cv" id="gl" aria-hidden="true"></canvas>
+    <div ref="logo" class="gl-logo" aria-hidden="true"><img src="assets/logo-dark.png" alt=""><span>M E D I A</span></div>`,
   mounted() {
     if (!window.THREE) return;
     const T = THREE;
     const cv = this.$refs.cv;
+    const logoEl = this.$refs.logo;
     let renderer;
     try {
       renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: false, powerPreference: 'high-performance' });
-    } catch (e) { cv.style.display = 'none'; return; }
+    } catch (e) { cv.style.display = 'none'; logoEl.style.display = 'none'; return; }
     renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
     renderer.setClearColor(0x050814, 1);
 
@@ -147,6 +151,7 @@ EB.components.GlBackground = {
     resize(); onScroll();
 
     let last = performance.now(), t = 0;
+    const orbPos = new T.Vector3();
     const loop = () => {
       if (!running) return;
       raf = requestAnimationFrame(loop);
@@ -190,6 +195,21 @@ EB.components.GlBackground = {
       }
       wg.attributes.position.needsUpdate = true;
       wave.position.z = cam.position.z - 14;
+
+      /* logo bám tâm quả cầu: chiếu tâm sang toạ độ màn hình, co giãn theo khoảng cách camera */
+      cam.updateMatrixWorld();
+      orbPos.copy(orb.position);
+      const dist = cam.position.distanceTo(orbPos);
+      orbPos.project(cam);
+      const vis = orbPos.z < 1 && dist > 3;
+      if (vis) {
+        const px = (H / 2) / Math.tan(cam.fov * Math.PI / 360) / dist;      // số pixel cho 1 đơn vị 3D
+        const lw = 2.1 * 1.5 * px * pulse;                                     // rộng ~75% đường kính lõi
+        const op = Math.min(1, Math.max(0, (dist - 4) / 6)) * (W < 820 ? 0.3 : 1);   // điện thoại: quả cầu nằm sau tiêu đề nên logo mờ như hình chìm
+        logoEl.style.width = lw.toFixed(1) + 'px';
+        logoEl.style.opacity = op.toFixed(3);
+        logoEl.style.transform = `translate3d(${((orbPos.x + 1) / 2 * W).toFixed(1)}px,${((1 - orbPos.y) / 2 * H).toFixed(1)}px,0) translate(-50%,-50%)`;
+      } else logoEl.style.opacity = 0;
 
       stars.rotation.y = t * 0.012 + sp2 * 0.6;
       L1.position.x = -8 + Math.sin(t * .5) * 3; L2.position.y = -3 + Math.cos(t * .4) * 3;
