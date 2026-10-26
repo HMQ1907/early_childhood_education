@@ -1,53 +1,56 @@
 /* =====================================================================
-   03 · TeamSection — Giá 1 nhân sự, nhận được 1 đội ngũ (sơ đồ quỹ đạo)
+   03 · TeamSection — Chi phí một nhân sự, chất lượng một đội ngũ
+   Slide + sơ đồ quỹ đạo vai trò + quy trình 4 bước + dải ảnh đội ngũ
    ===================================================================== */
 EB.components.TeamSection = {
   name: 'TeamSection',
   emits: ['open'],
-  data: () => ({ c: window.EDUBIZ_CONTENT.team }),
+  data: () => ({ c: window.EDUBIZ_CONTENT.team, act: -1 }),
   template: `
     <section class="sec" id="team">
       <sec-head num="03" :label="c.kicker" en="ONE PARTNER · FULL TEAM" />
-      <div class="team-grid">
-        <div class="team-copy">
-          <grad-title :parts="c.title" />
-          <p class="body-lg" v-reveal="'up'">{{ c.p1 }}</p>
-          <p class="body" v-reveal="'up'">{{ c.p2 }}</p>
-          <p class="turn" v-reveal="'up'"><ico n="spark" s="18"/> {{ c.turn }}</p>
-          <p class="body" v-reveal="'up'">{{ c.p3 }}</p>
-        </div>
+      <grad-title :parts="c.title" class="team-title" />
 
+      <div class="team-grid">
+        <div v-reveal="'left'">
+          <slide-frame :src="c.slide.src" :alt="c.slide.alt" tag="ĐỘI NGŨ & QUY TRÌNH" @open="$emit('open', $event)" />
+        </div>
         <div class="orbit-wrap" v-reveal="'zoom'">
           <div class="orbit">
             <span class="orbit-ring r1"></span><span class="orbit-ring r2"></span><span class="orbit-ring r3"></span>
             <div class="orbit-spin">
-              <span v-for="(r, i) in c.roles" :key="i" class="orbit-node"
-                    :style="{ '--a': (i * 360 / c.roles.length) + 'deg' }">
+              <span v-for="(r, i) in c.roles" :key="i" class="orbit-node" :style="{ '--a': (i * 360 / c.roles.length) + 'deg' }">
                 <span class="orbit-node-in"><b>{{ String(i + 1).padStart(2, '0') }}</b>{{ r }}</span>
               </span>
             </div>
-            <button class="orbit-core" type="button" @click="$emit('open', 'team')" data-cursor aria-label="Xem ảnh đội ngũ">
-              <img src="assets/team.jpg" alt="Đội ngũ Edubiz Media">
+            <button class="orbit-core" type="button" data-cursor aria-label="Xem ảnh đội ngũ"
+                    @click="$emit('open', { src: c.photo, title: 'Đội ngũ Edubiz Media', tag: 'OUR TEAM' })">
+              <img :src="c.photo" alt="Đội ngũ Edubiz Media">
               <span class="orbit-core-cap"><b>1</b> đối tác<br>Edubiz</span>
             </button>
           </div>
         </div>
       </div>
 
-      <div class="gets">
-        <div class="gets-card" v-reveal="'up'">
-          <h3 class="gets-h">Nhà trường nhận được</h3>
-          <ul>
-            <li v-for="(g, i) in c.gets" :key="i" v-reveal="'left'" :data-delay="i * 90">
-              <span class="ck"><ico n="check" s="16" w="2.6"/></span>{{ g }}
-            </li>
-          </ul>
-        </div>
-        <div class="gets-note" v-reveal="'up'" data-delay="150">
-          <p class="lead">{{ c.note }}</p>
-          <p class="small">{{ c.small }}</p>
-          <a class="btn-primary" href="#pricing" v-magnetic data-cursor><span>Xem bảng giá</span><ico n="arrow" s="14" w="2"/></a>
+      <div class="steps" ref="steps" id="process">
+        <div class="steps-line"><i :style="{ transform: 'scaleX(' + ((act + 1) / c.steps.length) + ')' }"></i></div>
+        <div v-for="(s, i) in c.steps" :key="i" class="step" :class="{ on: act >= i }" v-reveal="'up'" :data-delay="i * 120">
+          <span class="step-dot"><ico :n="s.icon" s="22" w="1.7"/></span>
+          <em>Bước {{ i + 1 }}</em>
+          <b>{{ s.t }}</b>
         </div>
       </div>
-    </section>`
+
+      <photo-strip :photos="c.gallery" @open="$emit('open', $event)" />
+    </section>`,
+  methods: {
+    onScroll() {
+      const el = this.$refs.steps; if (!el) return;
+      const r = el.getBoundingClientRect();
+      const p = (innerHeight * 0.85 - r.top) / (innerHeight * 0.5);
+      this.act = Math.min(this.c.steps.length - 1, Math.floor(p * this.c.steps.length) - 1);
+    }
+  },
+  mounted() { addEventListener('scroll', this.onScroll, { passive: true }); this.onScroll(); },
+  beforeUnmount() { removeEventListener('scroll', this.onScroll); }
 };

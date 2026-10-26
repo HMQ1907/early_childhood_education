@@ -38,8 +38,8 @@ EB.components.HeroSection = {
         </div>
       </div>
 
-      <button class="peek" type="button" v-tilt="10" data-cursor @click="$emit('open', 'team')" aria-label="Xem ảnh đội ngũ Edubiz Media">
-        <span class="peek-fr"><img src="assets/team.jpg" alt="Đội ngũ Edubiz Media"></span>
+      <button class="peek" type="button" v-tilt="10" data-cursor @click="$emit('open', { src: c.photo, title: 'Đội ngũ Edubiz Media', tag: 'OUR TEAM' })" aria-label="Xem ảnh đội ngũ Edubiz Media">
+        <span class="peek-fr"><img :src="c.photo" alt="Đội ngũ Edubiz Media"></span>
         <span class="peek-play"><span class="peek-play-btn"><ico n="zoom" s="20" w="2"/></span></span>
         <span class="peek-cap"><b class="jp">OUR TEAM</b><i>Đội ngũ Edubiz Media</i></span>
         <span class="peek-badge"><b>1</b> đầu mối<br>= <b>1</b> đội ngũ</span>

@@ -4,26 +4,13 @@
 (function () {
   const { createApp } = Vue;
 
-  const MEDIA = {
-    team: {
-      src: 'assets/team.jpg', tag: 'EDUBIZ MEDIA · OUR TEAM',
-      title: 'Giá 1 nhân sự – Nhận được 1 đội ngũ',
-      desc: 'Nhà trường có một đối tác phụ trách xuyên suốt, được hỗ trợ bởi đội ngũ chuyên môn: định hướng nội dung, quay chụp, biên tập hình ảnh – video – bài viết và quản lý kênh truyền thông.'
-    },
-    poster: {
-      src: 'assets/bang-gia.jpg', tag: 'BẢNG GIÁ DỊCH VỤ SOCIAL MEDIA',
-      title: 'Bảng giá dịch vụ Social Media',
-      desc: 'Gói xây dựng 25.000.000đ/page · Gói phát triển 8.500.000đ/tháng · Gói bứt phá 12.500.000đ/tháng · Film AI: đơn giá tính theo phút, trao đổi cụ thể theo yêu cầu.'
-    }
-  };
-
   const App = {
     data: () => ({
       ready: false,
       active: '',
       modal: null,
       choice: -1,
-      ids: ['hero', 'story', 'solutions', 'team', 'process', 'pricing', 'partners', 'vision', 'contact']
+      ids: ['hero', 'story', 'solutions', 'team', 'pricing', 'feedback', 'founder', 'partners', 'vision', 'contact']
     }),
     template: `
       <app-preloader @done="ready = true" />
@@ -36,25 +23,34 @@
 
       <main class="page" id="top">
         <hero-section :ready="ready" @open="open" />
-        <story-section />
-        <solutions-section />
+        <story-section @open="open" />
+        <solutions-section @open="open" />
         <team-section @open="open" />
-        <process-section />
         <pricing-section @open="open" @choose="choose" />
+        <feedback-section @open="open" />
+        <founder-section @open="open" />
         <partners-section />
         <vision-section />
         <contact-section :choice="choice" />
         <app-footer />
       </main>
 
-      <a class="fab" :href="'tel:' + hot" aria-label="Gọi hotline" data-cursor><ico n="phone" s="22" w="1.8"/><span>{{ hotTxt }}</span></a>
+      <div class="fabs">
+        <a class="fab fab--fb" :href="b.facebook" target="_blank" rel="noopener" aria-label="Nhắn tin Facebook Edubiz Media" data-cursor>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5H16l.4-3H13.5V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z"/></svg>
+          <span class="fab-tip">Facebook</span>
+        </a>
+        <a class="fab fab--zalo" :href="b.zalo" target="_blank" rel="noopener" aria-label="Chat Zalo với Edubiz Media" data-cursor>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="15.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.6" font-weight="700" fill="currentColor">Zalo</text></svg>
+          <span class="fab-tip">Zalo: {{ b.hotline }}</span>
+        </a>
+      </div>
       <image-modal :item="modal" @close="modal = null" />`,
     computed: {
-      hot: () => window.EDUBIZ_CONTENT.brand.hotlineRaw,
-      hotTxt: () => window.EDUBIZ_CONTENT.brand.hotline
+      b: () => window.EDUBIZ_CONTENT.brand
     },
     methods: {
-      open(k) { this.modal = MEDIA[k] || null; },
+      open(item) { this.modal = item && item.src ? item : null; },
       choose(i) {
         this.choice = -1;
         this.$nextTick(() => { this.choice = i; });

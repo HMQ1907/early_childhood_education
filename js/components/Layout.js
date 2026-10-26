@@ -135,10 +135,12 @@
     template: `
       <transition name="modal">
         <div class="modal" v-if="item" @click.self="$emit('close')">
-          <div class="modal-box">
+          <div class="modal-box" :class="{ 'modal-box--img': !item.desc }">
             <button class="modal-close" @click="$emit('close')" aria-label="Đóng">✕</button>
             <div class="modal-img-wrap"><img :src="item.src" :alt="item.title"></div>
-            <div class="modal-info">
+            <div class="modal-cap" v-if="!item.desc"><span class="modal-tag">{{ item.tag }}</span><b>{{ item.title }}</b>
+              <a class="btn-primary" href="#contact" @click="$emit('close')"><span>Đăng ký tư vấn</span><ico n="arrow" s="14" w="2"/></a></div>
+            <div class="modal-info" v-else>
               <span class="modal-tag">{{ item.tag }}</span>
               <h3>{{ item.title }}</h3>
               <p>{{ item.desc }}</p>
@@ -173,6 +175,7 @@
             <li v-for="l in nav" :key="l.id"><a :href="'#' + l.id">{{ l.label }}</a></li>
           </ul></div>
           <div><h4>Liên hệ</h4><ul class="foot-contact">
+            <li><a :href="b.facebook" target="_blank" rel="noopener"><ico n="facebook" s="16"/> {{ b.facebookLabel }}</a></li>
             <li><a :href="'tel:' + b.hotlineRaw"><ico n="phone" s="16"/> Hotline: {{ b.hotline }}</a></li>
             <li v-for="w in b.websites" :key="w"><a :href="'https://' + w" target="_blank" rel="noopener"><ico n="web" s="16"/> {{ w }}</a></li>
             <li><a :href="'mailto:' + b.email"><ico n="mail" s="16"/> {{ b.email }}</a></li>

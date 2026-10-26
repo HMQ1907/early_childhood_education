@@ -16,11 +16,13 @@ EB.components.ContactSection = {
   template: `
     <section class="sec fin" id="contact">
       <div class="fin-left">
-        <div class="eyebrow fin-eyebrow" v-reveal="'fade'">08 — {{ c.kicker.toUpperCase() }}</div>
+        <div class="eyebrow fin-eyebrow" v-reveal="'fade'">09 — {{ c.kicker.toUpperCase() }}</div>
         <grad-title :parts="c.title" />
         <p class="body-lg" v-reveal="'up'">{{ c.lead }}</p>
-        <p class="body" v-reveal="'up'">{{ c.body }}</p>
         <div class="contact-list" v-reveal="'up'">
+          <a :href="b.facebook" target="_blank" rel="noopener" class="ct ct--fb" v-magnetic="0.15" data-cursor>
+            <span class="ct-ico"><ico n="facebook" s="20"/></span><span><small>Facebook</small><b>{{ b.facebookLabel }}</b></span>
+          </a>
           <a :href="'tel:' + b.hotlineRaw" class="ct" v-magnetic="0.15" data-cursor>
             <span class="ct-ico"><ico n="phone" s="20"/></span><span><small>Hotline</small><b>{{ b.hotline }}</b></span>
           </a>
