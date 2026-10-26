@@ -23,11 +23,10 @@ EB.components.TeamSection = {
                 <span class="orbit-node-in"><b>{{ String(i + 1).padStart(2, '0') }}</b>{{ r }}</span>
               </span>
             </div>
-            <button class="orbit-core" type="button" data-cursor aria-label="Xem ảnh đội ngũ"
-                    @click="$emit('open', { src: c.photo, title: 'Đội ngũ Edubiz Media', tag: 'OUR TEAM' })">
-              <img :src="c.photo" alt="Đội ngũ Edubiz Media">
-              <span class="orbit-core-cap"><b>1</b> đối tác<br>Edubiz</span>
-            </button>
+            <div class="orbit-core orbit-core--logo">
+              <img src="assets/logo-dark.png" alt="EduBiz Media" width="1000" height="298">
+              <span class="orbit-core-media">M E D I A</span>
+            </div>
           </div>
         </div>
       </div>
